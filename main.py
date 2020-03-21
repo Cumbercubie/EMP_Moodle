@@ -1,8 +1,8 @@
 from __future__ import print_function
-
+import requests
 from googleapiclient.http import MediaIoBaseDownload
 
-import DriveAPI
+import GoogleAuth
 import io
 from oauth2client import client
 from oauth2client import tools
@@ -12,7 +12,7 @@ from googleapiclient.discovery import build
 SCOPES = ['https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/spreadsheets']
 global session
 session = False
-driveAPI = DriveAPI.auth(SCOPES, "credentials.json", "EMP Teacher's Moodle")
+driveAPI = GoogleAuth.auth(SCOPES, "credentials.json", "EMP Teacher's Moodle")
 credentials = driveAPI.getCredentials()
 service = build('drive', 'v3', credentials=credentials)
 session = True
@@ -60,8 +60,33 @@ def createFolder(name):
     file = service.files().create(body=file_metadata,fields='id').execute()
     print('Folder ID: %s' % file.get('id'))
 
+
+def getChanges():
+    saved_start_page_token = service.changes().getStartPageToken().execute().get('startPageToken')
+    while True:
+        page_token = saved_start_page_token
+        while page_token is not None:
+            response = service.changes().list(pageToken=page_token,
+                                              spaces='drive').execute()
+            for change in response.get('changes'):
+                # Process change
+                fileId = change.get('fileId')
+                file = service.files().get(fileId=fileId,fields='parents')
+                print('Change found for file: {}   remove: {}, at {}, parent: {}'.format(change.get('fileId'), change.get('kind'),
+                                                                             change.get('time'),file['parents']))
+            if 'newStartPageToken' in response:
+                # Last page, save this token for the next polling interval
+                saved_start_page_token = response.get('newStartPageToken')
+            page_token = response.get('nextPageToken')
+
 def main():
-    searchFolder(10,"name='Classroom'")
+    # start_token = service.changes().getStartPageToken().execute()
+    # print('Start token: %s' % start_token.get('startPageToken'))
+    # getChanges()
+    # file = service.files().get(fileId='1Eiz_rMNNRu6-BXiMcY03JaaC1gNdBqB_R7gUfwR0Ijk',fields='parents').execute()
+    # parents = file['parents']
+    # print(parents)
+    listFiles()
 
 if __name__ == '__main__':
     main()

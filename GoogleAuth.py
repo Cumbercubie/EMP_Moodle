@@ -5,13 +5,12 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import  Request
 
-
-
 class auth:
     def __init__(self,SCOPES, CREDENTIALS,APP_NAME):
         self.SCOPES = SCOPES
         self.AUTH_FILES = CREDENTIALS
         self.APP_NAME = APP_NAME
+        self.CREDENTIALS = CREDENTIALS
         self.credentials = None
     def getCredentials(self):
         """Shows basic usage of the Drive v3 API.
@@ -30,7 +29,7 @@ class auth:
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'credentials.json', self.SCOPES)
+                    self.CREDENTIALS, self.SCOPES)
                 creds = flow.run_local_server(port=0)
             # Save the credentials for the next run
             with open('token.pickle', 'wb') as token:

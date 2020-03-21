@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{%block body%}
+    <div class="container">
+            <form action="/index.html" class="col s12" method="POST">
+              <div class="row">
+                <div class="input-field col s6">
+                  <input name="username "placeholder="username" id="first_name" type="text" class="validate">
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6">
+                  <input name="password" placeholder="password" id="password" type="password" class="validate">
+                </div>
+              </div>
+              <button class="btn waves-effect  waves-light" type="submit" name="action">Submit
+                <i class="material-icons right">send</i>
+              </button>
+            </form>
+    </div>
+{% endblock %}

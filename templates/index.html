@@ -1,22 +1,28 @@
+{% extends 'base.html' %}
+<!-- 
 <!DOCTYPE html>
 <html>
   <head>
-    <!--Import Google Icon Font-->
+    <!-Import Google Icon Font--
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    
-    <!-- Compiled and minified CSS -->
+    <- Compiled and minified CSS --
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    Let browser know website is optimized for mobile--
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+    {% block head%}
+
     <style>
       #title{
         font-weight: bold;
         font-size: 50px;
       }
     </style>
-  </head>
+    {% endblock  %}
+  <!-- </head> -->
   
-  <body class="white">
+  <!-- <body class="white"> -->
+  {% block body %}
       <nav class="nav-wrapper">
         <div class="container">
           <a href="" id="title" class="brand-logo">EMP CLASS</a>
@@ -43,21 +49,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Alvin</td>
-                <td>Eclair</td>
-                <td>$0.87</td>
-              </tr>
-              <tr>
-                <td>Alan</td>
-                <td>Jellybean</td>
-                <td>$3.76</td>
-              </tr>
-              <tr>
-                <td>Jonathan</td>
-                <td>Lollipop</td>
-                <td>$7.00</td>
-              </tr>
+                {% for data in datas %}
+                  <tr>
+                    <td>Alvin</td>
+                    <td>Eclair</td>
+                    <td>$0.87</td>
+                  </tr>
+                {% endfor %}
             </tbody>
           </table>
                 
@@ -72,6 +70,5 @@
         var instance = M.Tabs.init(elem);
       })
      </script>
-  </body>
-</html>
+  {% endblock %}
       
