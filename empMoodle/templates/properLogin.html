@@ -1,6 +1,6 @@
 {%extends "base.html" %}
 {% block body %}
-<div class="valign-wrapper" style="width:100%;height:100%;position: absolute;background-color: #121212;">
+<div class="valign-wrapper" style="width:100%;height:100%;position: absolute;">
     <div class="valign" style="width:100%;">
         <div class="container">
            <div class="row">
@@ -8,7 +8,9 @@
                  <div class="card">
                     <div class="card-content">
                        <span class="card-title black-text">Sign In</span>
-                       <form>
+                       <form id='login-form' method ="POST">
+                          <!-- {{form.hidden_tag()}} -->
+                          {{ form.csrf_token }}
                           <div class="row">
                              <div class="input-field col s12">
                                 {{ form.email(class="input-field")}}
@@ -21,11 +23,13 @@
                                 <label for="password" class="active">password</label>
                              </div>
                           </div>
+                          {{form.submit(class="btn",style="background-color: #ec008c")}}
+                          <!-- <input type="submit"  class="btn" value="Sign In" style="background-color: #ec008c;"> -->
                        </form>
                     </div>
                     <div class="card-action">
-                       <!-- <input type="submit" class="btn" value="Sign In" style="background-color: #ec008c;">  -->
-                       {{form.submit(class="btn",style="background-color: #ec008c;")}}
+                       
+
                     </div>
                     <small class="black-text center-align">
                         Don't have an account? <a href="{{url_for('login')}}">Register here</a>

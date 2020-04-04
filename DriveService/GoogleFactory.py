@@ -1,7 +1,7 @@
 import GoogleAuth
 from abc import ABCMeta, abstractclassmethod
 import io
-from oauth2client import client
+from google_atuh import client
 from oauth2client import tools
 from oauth2client.file import Storage
 from googleapiclient.discovery import build

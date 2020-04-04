@@ -1,12 +1,9 @@
 from __future__ import print_function
-import requests
+# import requests
 from googleapiclient.http import MediaIoBaseDownload
 
 import GoogleAuth
 import io
-from oauth2client import client
-from oauth2client import tools
-from oauth2client.file import Storage
 from googleapiclient.discovery import build
 
 SCOPES = ['https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/spreadsheets']
@@ -71,22 +68,20 @@ def getChanges():
             for change in response.get('changes'):
                 # Process change
                 fileId = change.get('fileId')
-                file = service.files().get(fileId=fileId,fields='parents')
-                print('Change found for file: {}   remove: {}, at {}, parent: {}'.format(change.get('fileId'), change.get('kind'),
-                                                                             change.get('time'),file['parents']))
+                file = service.files().get(fileId=fileId,fields='name').execute()
+                print('Change found for file: {}   remove: {}, name: {}'.format(change.get('fileId'), change.get('kind'),file['name']))                                                 
             if 'newStartPageToken' in response:
                 # Last page, save this token for the next polling interval
                 saved_start_page_token = response.get('newStartPageToken')
             page_token = response.get('nextPageToken')
 
 def main():
-    # start_token = service.changes().getStartPageToken().execute()
-    # print('Start token: %s' % start_token.get('startPageToken'))
-    # getChanges()
+    start_token = service.changes().getStartPageToken().execute()
+    print('Start token: %s' % start_token.get('startPageToken'))
+    getChanges()
     # file = service.files().get(fileId='1Eiz_rMNNRu6-BXiMcY03JaaC1gNdBqB_R7gUfwR0Ijk',fields='parents').execute()
     # parents = file['parents']
     # print(parents)
-    listFiles()
 
 if __name__ == '__main__':
     main()

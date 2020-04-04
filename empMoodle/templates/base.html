@@ -12,7 +12,36 @@
     {%block head %}{% endblock %}
   </head>
   <body>
+    <nav class="nav-wrapper" style="background-color: #ec008c;">
+      <div class="container">
+        <a href="" id="title" class="brand-logo">EMP CLASS</a>
+        <ul class="right">
+          {% if current_user.is_authenticated %}
+            <li><a href="{{url_for('logout')}}">Logout</a></li>
+            <li><a>House</a></li>
+            <li><a>Stay</a></li>
+          {% else %}
+            <li><a href="{{url_for('login')}}">Login</a></li>
+            <li><a>House</a></li>
+            <li><a>Stay</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=True)%}
+      {% if messages%}
+        {% for category, message in messages%}
+          <div class="{{category}}">
+              {{message}}
+          </div>
+        {% endfor %}
+      {% endif %}
+   {% endwith %} 
+  
+  </div>
     {% block body %}{%  endblock %}
+  
   </body>
 </html>
 
