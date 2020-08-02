@@ -2,6 +2,8 @@ from flask import Flask,render_template,request,redirect
 
 app = Flask(__name__)
 
+
+#This is new modified code 
 @app.route("/")
 def index():
     if request.method == "POST":
